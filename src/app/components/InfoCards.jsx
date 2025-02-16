@@ -1,6 +1,7 @@
+"use client";
 import { FaLifeRing, FaUserPlus, FaAward } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-
+import { motion } from "framer-motion";
 const cards = [
   {
     icon: <FaLifeRing className="text-2xl text-gray-700" />,
@@ -29,17 +30,23 @@ export default function InfoCards() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
       {cards.map((card, index) => (
-        <div
+        <motion.div
+          className=""
+          initial={{ opacity: 0, y: 50 }}
           key={index}
-          className="border rounded-lg p-6 shadow-md flex flex-col items-start"
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: false, amount: 0.5 }}
         >
-          <div className="mb-4">{card.icon}</div>
-          <h3 className="text-lg font-semibold mb-2">{card.title}</h3>
-          <p className="text-gray-600 mb-4">{card.description}</p>
-          <Button className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-700">
-            {card.buttonText}
-          </Button>
-        </div>
+          <div className="border rounded-lg p-6 shadow-md flex flex-col items-start">
+            <div className="mb-4">{card.icon}</div>
+            <h3 className="text-lg font-semibold mb-2">{card.title}</h3>
+            <p className="text-gray-600 mb-4">{card.description}</p>
+            <Button className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+              {card.buttonText}
+            </Button>
+          </div>
+        </motion.div>
       ))}
     </div>
   );

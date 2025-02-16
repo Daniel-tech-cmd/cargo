@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import TrackingTabs from "./Track";
+import Link from "next/link";
 
 export default function Banner() {
   return (
@@ -43,9 +44,12 @@ export default function Banner() {
           With truly integrated logistics, there’s always a new way to keep your
           goods moving and your business growing.
         </p>
-        <Button className="mt-4 bg-white text-black px-4 py-2 text-base font-medium rounded-md">
+        <Link
+          href={"/prices"}
+          className="mt-8 bg-white text-black px-4 py-2 text-base font-medium rounded-md inline-block"
+        >
           Discover new paths
-        </Button>
+        </Link>
       </div>
 
       {/* Tracking Box */}

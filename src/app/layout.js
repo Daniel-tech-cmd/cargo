@@ -5,6 +5,7 @@ import "./globals.css";
 import FooterNav from "./components/FooterNav";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import ChatButton from "./components/Whatsappicon";
+import Google from "./components/Googl";
 
 const rubik = Rubik({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -20,13 +21,13 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Jetspeed Cargo – Efficient Global Shipping Solutions",
+  title: "Maersk Cargo – Reliable Global Shipping & Logistics",
   description:
-    "Jetspeed Cargo offers fast, reliable cargo and logistics services, connecting businesses globally with secure and timely shipping solutions. Discover seamless delivery with our industry expertise.",
+    "Maersk Cargo provides fast, secure, and efficient shipping solutions worldwide. With industry expertise and a trusted logistics network, we ensure timely deliveries and seamless cargo management for businesses of all sizes.",
   openGraph: {
-    title: "Jetspeed Cargo – Efficient Global Shipping Solutions",
+    title: "Maersk Cargo – Reliable Global Shipping & Logistics",
     description:
-      "Jetspeed Cargo offers fast, reliable cargo and logistics services, connecting businesses globally with secure and timely shipping solutions. Discover seamless delivery with our industry expertise.",
+      "Maersk Cargo provides fast, secure, and efficient shipping solutions worldwide. With industry expertise and a trusted logistics network, we ensure timely deliveries and seamless cargo management for businesses of all sizes.",
 
     images: [
       {
@@ -68,6 +69,7 @@ export default async function RootLayout({ children }) {
       >
         <AuthContextProvider>
           <ChatButton number={dat[0].whatsappNumber} />
+          <Google />
           {children}
           <FooterNav />
         </AuthContextProvider>
