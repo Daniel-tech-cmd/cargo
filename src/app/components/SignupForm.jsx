@@ -1,8 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import useSignup from "../hooks/useSignup";
+import Success from "./Success";
 
 export default function SignupForm() {
+  const { signup, isLoading, error, showsuccess } = useSignup();
+  const [erro, setError] = useState(null);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -10,8 +14,6 @@ export default function SignupForm() {
     surname: "",
     country: "",
     mobile: "",
-    landline: "",
-    extension: "",
     password: "",
     confirmPassword: "",
     termsAccepted: false,
@@ -26,13 +28,31 @@ export default function SignupForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+    setError(null);
+
+    if (
+      !formData.username ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      setError("Please fill out all required fields.");
       return;
     }
-    console.log("Form submitted:", formData);
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    try {
+      //   console.log("Submitting user data:", newUser);
+      await signup(formData);
+      // Example: await submit(newUser, 'signup');
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred. Please try again.");
+    }
     // Send formData to backend API
   };
 
@@ -92,21 +112,7 @@ export default function SignupForm() {
           className="w-full p-2 border rounded"
           required
         />
-        <input
-          name="landline"
-          value={formData.landline}
-          onChange={handleChange}
-          type="tel"
-          placeholder="Enter landline number"
-          className="w-full p-2 border rounded"
-        />
-        <input
-          name="extension"
-          value={formData.extension}
-          onChange={handleChange}
-          placeholder="Enter extension (Optional)"
-          className="w-full p-2 border rounded"
-        />
+
         <input
           name="password"
           value={formData.password}
@@ -146,11 +152,14 @@ export default function SignupForm() {
           />
           <span>I agree to receive logistics news and marketing updates</span>
         </div>
+        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+        {erro && <div className="text-red-500 text-sm mt-2">{erro}</div>}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded"
+          disabled={isLoading}
+          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
         >
-          Submit
+          {isLoading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
       <p className="text-center mt-4">
@@ -159,6 +168,7 @@ export default function SignupForm() {
           Log in
         </Link>
       </p>
+      {showsuccess && <Success message={"Sign up successful!"} />}
     </div>
   );
 }

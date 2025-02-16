@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoLocationOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 const tabs = [
   {
@@ -24,7 +25,18 @@ const tabs = [
 ];
 
 export default function TrackingTabs() {
+  const [trackingId, setTrackingId] = useState("");
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState(tabs[0]);
+
+  const handleTrack = (e) => {
+    e.preventDefault();
+    if (trackingId === "") {
+      return;
+    } else {
+      router.push(`/track-package/${trackingId.trim()}`);
+    }
+  };
 
   return (
     <div className="w-full max-w-[400px] min-w-full md:min-w-[400px] bg-gray-900 text-white shadow-lg rounded-lg p-4">
@@ -55,6 +67,8 @@ export default function TrackingTabs() {
                 <input
                   type="text"
                   placeholder={ph}
+                  value={trackingId}
+                  onChange={(e) => setTrackingId(e.target.value)}
                   className="outline-none w-full bg-transparent text-white"
                 />
               </div>
@@ -68,11 +82,18 @@ export default function TrackingTabs() {
             <input
               type="text"
               placeholder={activeTab.placeholder}
+              value={trackingId}
+              onChange={(e) => setTrackingId(e.target.value)}
               className="outline-none w-full bg-transparent text-white"
             />
           </div>
         )}
-        <Button className="mt-4 bg-gray-700 text-white py-2 px-6 rounded-md hover:bg-blue-600 w-fit mx-auto">
+        <Button
+          className="mt-4 bg-gray-700 text-white py-2 px-6 rounded-md hover:bg-blue-600 w-fit mx-auto"
+          onClick={(e) => {
+            handleTrack(e);
+          }}
+        >
           {activeTab.button}
         </Button>
       </div>

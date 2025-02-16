@@ -5,10 +5,28 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Search, Bell, HelpCircle, User } from "lucide-react";
+import { useAuthContext } from "../hooks/useAuthContext";
+import useSignup from "../hooks/useSignup";
+import Image from "next/image";
+import {
+  Menu,
+  Search,
+  Bell,
+  HelpCircle,
+  User,
+  X,
+  ChevronRight,
+  LogOut,
+  Gift,
+  User2Icon,
+} from "lucide-react";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { FaMobile } from "react-icons/fa";
 
 export default function Navbar({ bgColor = "transparent" }) {
   const [scroll, setScroll] = useState(false);
+  const { user } = useAuthContext();
+  const { logout } = useSignup();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,26 +110,81 @@ export default function Navbar({ bgColor = "transparent" }) {
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className={`w-6 h-6 ${textColor}`} />
+              <Menu className="w-6 h-6 text-gray-800" />
             </Button>
           </SheetTrigger>
-          <SheetContent>
-            <nav className="flex flex-col gap-4 text-lg font-medium mt-8">
-              <Link href="#" className="px-2 py-1 rounded-md hover:bg-gray-200">
-                Prices
-              </Link>
-              <Link href="#" className="px-2 py-1 rounded-md hover:bg-gray-200">
-                Book
-              </Link>
-              <Link href="#" className="px-2 py-1 rounded-md hover:bg-gray-200">
-                Tracking
-              </Link>
-              <Link href="#" className="px-2 py-1 rounded-md hover:bg-gray-200">
-                Schedules
-              </Link>
-              <Link href="#" className="px-2 py-1 rounded-md hover:bg-gray-200">
-                Services
-              </Link>
+          <SheetContent className="bg-white shadow-lg border border-gray-300">
+            <div className="flex items-center justify-between  py-3 border-b border-gray-300">
+              {/* Logo */}
+              <Image src="/logo.png" alt="Logo" width={90} height={35} />
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <X className="w-6 h-6 text-gray-800" />
+                </Button>
+              </SheetTrigger>
+            </div>
+
+            <nav className="flex flex-col gap-3 text-sm font-medium mt-5 px-1">
+              {[
+                { name: "Prices", href: "#" },
+                { name: "Book", href: "#" },
+                { name: "Tracking", href: "#" },
+                { name: "Schedules", href: "#" },
+                { name: "Services", href: "#" },
+              ].map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-200 transition"
+                >
+                  <span>{item.name}</span>
+                  <ChevronRight className="w-5 h-5 text-gray-600" />
+                </Link>
+              ))}
+
+              {/* Admin Link - Visible only if user.role === "admin" */}
+              {user?.role === "admin" && (
+                <>
+                  <Link
+                    href="/admin/send-gift"
+                    className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  >
+                    <span>Send Gift</span>
+                    <Gift className="w-5 h-5 text-white" />
+                  </Link>
+                  <Link
+                    href="/admin"
+                    className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  >
+                    <span>Admin Panel</span>
+                    <MdAdminPanelSettings className="w-5 h-5 text-white" />
+                  </Link>
+                  <Link
+                    href="/admin/add-number"
+                    className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  >
+                    <span>Add Number</span>
+                    <FaMobile className="w-5 h-5 text-white" />
+                  </Link>
+                  <Link
+                    href="/admin/user"
+                    className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  >
+                    <span>Users</span>
+                    <User2Icon className="w-5 h-5 text-white" />
+                  </Link>
+                </>
+              )}
+              {user && (
+                <button
+                  href="/admin"
+                  className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  onClick={logout}
+                >
+                  <span>Logout</span>
+                  <LogOut className="w-5 h-5 text-white" />
+                </button>
+              )}
             </nav>
           </SheetContent>
         </Sheet>

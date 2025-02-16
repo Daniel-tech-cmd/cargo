@@ -1,8 +1,12 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import useSignup from "../hooks/useSignup";
 
 export default function LoginForm() {
+  const [error, setError] = useState(null);
+  const { login, isLoading, error: erro } = useSignup();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,10 +20,25 @@ export default function LoginForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Login submitted:", formData);
     // Send formData to backend API
+
+    setError(null);
+
+    if (!formData.email || !formData.password) {
+      setError("Please fill out all fields.");
+      return;
+    }
+
+    try {
+      // console.log("Submitting login data:", loginData);
+      await login(formData);
+    } catch (err) {
+      console.error(err);
+      setError("Invalid login credentials. Please try again.");
+    }
   };
 
   return (
@@ -46,11 +65,15 @@ export default function LoginForm() {
           className="w-full p-2 border rounded"
           required
         />
+        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+        {erro && <div className="text-red-500 text-sm mt-2">{erro}</div>}
+
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded"
+          disabled={isLoading}
+          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
         >
-          Login
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
       <p className="text-center mt-4">
