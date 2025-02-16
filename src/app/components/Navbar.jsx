@@ -52,7 +52,7 @@ export default function Navbar({ bgColor = "transparent" }) {
         <div className="flex justify-center items-center ">
           <a href="/" className="flex items-center" aria-label="Go to homepage">
             <svg
-              className="w-44 h-auto"
+              className="w-24 h-auto sm:w-32"
               viewBox="0 0 170 38"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -171,91 +171,105 @@ export default function Navbar({ bgColor = "transparent" }) {
         </div>
 
         {/* Mobile Menu */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <svg
-                className={`h-8 w-8 ${textColor}`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="bg-white shadow-lg border border-gray-300">
-            <nav className="flex flex-col gap-3 text-sm font-medium mt-5 px-1">
-              {[
-                { name: "Prices", href: "/prices" },
+        <div className="flex gap-5s">
+          {" "}
+          <div className="flex align-center">
+            <div className="flex align-center md:hidden items-center gap-5">
+              <Link href={"/user/login"} variant="ghost" size="icon">
+                <Bell className={`w-5 h-5 ${textColor}`} />
+              </Link>
 
-                { name: "Tracking", href: "/track" },
-                { name: "Schedules", href: "#" },
-                { name: "Services", href: "/services" },
-                { name: "Contact us", href: "/contact" },
-              ].map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-200 transition"
+              <Link href={"/user/login"} variant="ghost" size="icon">
+                <User className={`w-4 h-4 ${textColor}`} />
+              </Link>
+            </div>
+          </div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <svg
+                  className={`h-8 w-8 ${textColor}`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <span>{item.name}</span>
-                  <ChevronRight className="w-5 h-5 text-gray-600" />
-                </Link>
-              ))}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="bg-white shadow-lg border border-gray-300">
+              <nav className="flex flex-col gap-3 text-sm font-medium mt-5 px-1">
+                {[
+                  { name: "Prices", href: "/prices" },
 
-              {/* Admin Link - Visible only if user.role === "admin" */}
-              {user?.role === "admin" && (
-                <>
+                  { name: "Tracking", href: "/track" },
+                  { name: "Schedules", href: "#" },
+                  { name: "Services", href: "/services" },
+                  { name: "Contact us", href: "/contact" },
+                ].map((item) => (
                   <Link
-                    href="/admin/send-gift"
-                    className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                    key={item.name}
+                    href={item.href}
+                    className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-200 transition"
                   >
-                    <span>Send Gift</span>
-                    <Gift className="w-5 h-5 text-white" />
+                    <span>{item.name}</span>
+                    <ChevronRight className="w-5 h-5 text-gray-600" />
                   </Link>
-                  <Link
+                ))}
+
+                {/* Admin Link - Visible only if user.role === "admin" */}
+                {user?.role === "admin" && (
+                  <>
+                    <Link
+                      href="/admin/send-gift"
+                      className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                    >
+                      <span>Send Gift</span>
+                      <Gift className="w-5 h-5 text-white" />
+                    </Link>
+                    <Link
+                      href="/admin"
+                      className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                    >
+                      <span>Admin Panel</span>
+                      <MdAdminPanelSettings className="w-5 h-5 text-white" />
+                    </Link>
+                    <Link
+                      href="/admin/add-number"
+                      className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                    >
+                      <span>Add Number</span>
+                      <FaMobile className="w-5 h-5 text-white" />
+                    </Link>
+                    <Link
+                      href="/admin/user"
+                      className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                    >
+                      <span>Users</span>
+                      <User2Icon className="w-5 h-5 text-white" />
+                    </Link>
+                  </>
+                )}
+                {user && (
+                  <button
                     href="/admin"
                     className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                    onClick={logout}
                   >
-                    <span>Admin Panel</span>
-                    <MdAdminPanelSettings className="w-5 h-5 text-white" />
-                  </Link>
-                  <Link
-                    href="/admin/add-number"
-                    className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
-                  >
-                    <span>Add Number</span>
-                    <FaMobile className="w-5 h-5 text-white" />
-                  </Link>
-                  <Link
-                    href="/admin/user"
-                    className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
-                  >
-                    <span>Users</span>
-                    <User2Icon className="w-5 h-5 text-white" />
-                  </Link>
-                </>
-              )}
-              {user && (
-                <button
-                  href="/admin"
-                  className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
-                  onClick={logout}
-                >
-                  <span>Logout</span>
-                  <LogOut className="w-5 h-5 text-white" />
-                </button>
-              )}
-            </nav>
-          </SheetContent>
-        </Sheet>
+                    <span>Logout</span>
+                    <LogOut className="w-5 h-5 text-white" />
+                  </button>
+                )}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
