@@ -1,6 +1,7 @@
 import Address from "@/app/components/Address";
 import FooterNav from "@/app/components/FooterNav";
 import MapEmbed from "@/app/components/Map";
+import Navbar from "@/app/components/Navbar";
 import { notFound } from "next/navigation";
 async function getdatabyId(id) {
   const res = await fetch(`${process.env.URL}/api/gift/${id}`, {
@@ -20,7 +21,8 @@ const page = async ({ params }) => {
   const [dat] = await Promise.all([data]);
   return (
     <>
-      <div style={{ background: "#fff", marginTop: "65px" }}>
+      <Navbar bgColor="bg-white" />
+      <div style={{ background: "#fff", marginTop: "75px" }}>
         <MapEmbed location={dat?.currentLocation} />
         <Address data={dat} />
         <FooterNav />
