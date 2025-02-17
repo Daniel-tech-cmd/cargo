@@ -134,10 +134,10 @@ export default function Navbar({ bgColor = "transparent" }) {
             Tracking
           </Link>
           <Link
-            href="#"
+            href="/customs"
             className="px-2 py-1 rounded-md hover:bg-gray-200 hover:rounded-[4px]"
           >
-            Schedules
+            Customs
           </Link>
           <Link
             href="/services"
@@ -209,7 +209,7 @@ export default function Navbar({ bgColor = "transparent" }) {
                   { name: "Prices", href: "/prices" },
 
                   { name: "Tracking", href: "/track" },
-                  { name: "Schedules", href: "#" },
+                  { name: "Customs", href: "/customs" },
                   { name: "Services", href: "/services" },
                   { name: "Contact us", href: "/contact" },
                 ].map((item) => (

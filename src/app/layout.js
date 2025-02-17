@@ -68,7 +68,7 @@ export default async function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} ${rubik.className}  antialiased`}
       >
         <AuthContextProvider>
-          <ChatButton number={dat[0].whatsappNumber} />
+          <ChatButton number={dat[0]?.whatsappNumber} />
           <Google />
           {children}
           <FooterNav />
