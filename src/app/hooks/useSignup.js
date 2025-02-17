@@ -128,7 +128,7 @@ const useSignup = () => {
     localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
     Cookies.remove("user");
-    router.push("/admin/user/signin");
+    router.push("/user/login");
   };
 
   return {
