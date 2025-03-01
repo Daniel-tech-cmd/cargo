@@ -22,6 +22,7 @@ const geistMono = localFont({
 
 export const metadata = {
   title: "Maersk Cargo – Reliable Global Shipping & Logistics",
+  robots: "noindex, nofollow",
   description:
     "Maersk Cargo provides fast, secure, and efficient shipping solutions worldwide. With industry expertise and a trusted logistics network, we ensure timely deliveries and seamless cargo management for businesses of all sizes.",
   openGraph: {

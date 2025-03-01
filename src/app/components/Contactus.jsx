@@ -13,13 +13,41 @@ const ContactUs = () => {
     platform: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted", formData);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setResponseMessage(
+          "Your support request has been submitted successfully."
+        );
+        setFormData({
+          name: "",
+          mobileNumber: "",
+          companyName: "",
+          companyUrl: "",
+          emailAddress: "",
+          monthlyShipment: "",
+          platform: "",
+        });
+      } else {
+        setResponseMessage("Failed to submit your request. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting support request:", error);
+      setResponseMessage("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -48,7 +76,7 @@ const ContactUs = () => {
           <div className="text-gray-900 space-y-4">
             <div className="flex items-center mb-4">
               <FiMail className="text-blue-600 text-2xl" />
-              <p className="ml-3">sales@Jetspeedcargo.in</p>
+              <p className="ml-3">support@mearskcargo.com</p>
             </div>
             <div className="flex items-center mb-4">
               <FiPhone className="text-blue-600 text-2xl" />
