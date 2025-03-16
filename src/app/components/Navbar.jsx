@@ -258,7 +258,6 @@ export default function Navbar({ bgColor = "transparent" }) {
                 )}
                 {user && (
                   <button
-                    href="/admin"
                     className="flex items-center justify-between px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
                     onClick={logout}
                   >
